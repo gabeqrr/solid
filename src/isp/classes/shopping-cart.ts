@@ -3,8 +3,11 @@ import { Item } from './interfaces/item';
 
 export class ShoppingCart {
   private readonly _items: Item[] = [];
+  private readonly discount: Discount;
 
-  constructor(private readonly discount: Discount) {}
+  constructor(private readonly _discount: Discount) {
+    this.discount = _discount;
+  }
 
   addItem(item: Item): void {
     this._items.push(item);
@@ -33,6 +36,12 @@ export class ShoppingCart {
   }
 
   totalWithDiscount(): number {
+    // QUEBRANDO O LSP
+    // const result = this.discount.calculate(this.total());
+
+    // if (typeof result === 'number') return result;
+    // return this.total();
+
     return this.discount.calculate(this.total());
   }
 

@@ -1,7 +1,16 @@
-import { Discount } from './discount';
-import { Item } from './interfaces/item';
+// DIP: módulos de alto nível não devem depender de módulos de baixo nível.
+// Ambos devem depender de abstrações, não de implementações.
+// Abstrações não devem depender de detalhes. Detalhes devem depender
+// de abstrações
 
-export class ShoppingCart {
+// Classes de baixo nível são as que executam tarefas (os detalhes)
+// Classes de alto nível são as que gerenciam as de baixo nível
+
+import { Discount } from './discount'; // abstrata, tambem é um protocol pois nao pode ser instanciada
+import { Item } from './interfaces/item';
+import { ShoppingCartProtocol } from './interfaces/shopping-cart-protocol';
+
+export class ShoppingCart implements ShoppingCartProtocol {
   private readonly _items: Item[] = [];
 
   constructor(private readonly discount: Discount) {}
@@ -33,6 +42,12 @@ export class ShoppingCart {
   }
 
   totalWithDiscount(): number {
+    // QUEBRANDO O LSP
+    // const result = this.discount.calculate(this.total());
+
+    // if (typeof result === 'number') return result;
+    // return this.total();
+
     return this.discount.calculate(this.total());
   }
 

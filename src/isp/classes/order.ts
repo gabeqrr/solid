@@ -5,12 +5,19 @@ import { ShoppingCart } from './shopping-cart';
 
 export class Order {
   private _orderStatus: OrderStatus = 'open'; //
+  private readonly cart: ShoppingCart;
+  private readonly messaging: Messaging;
+  private readonly persistency: Persistency;
 
   constructor(
-    private readonly cart: ShoppingCart,
-    private readonly messaging: Messaging,
-    private readonly persistency: Persistency,
-  ) {}
+    private readonly _cart: ShoppingCart,
+    private readonly _messaging: Messaging,
+    private readonly _persistency: Persistency,
+  ) {
+    this.cart = _cart;
+    this.messaging = _messaging;
+    this.persistency = _persistency;
+  }
 
   get orderStatus(): OrderStatus {
     return this._orderStatus;
@@ -24,7 +31,7 @@ export class Order {
 
     this._orderStatus = 'closed';
     this.messaging.sendMessage(
-      `Seu pedido com total de R$${this.cart.total()} foi recebido!`,
+      `Seu pedido com total de R$${this.cart.totalWithDiscount()} foi recebido!`,
     );
     this.persistency.saveOrder();
     this.cart.clearCart();

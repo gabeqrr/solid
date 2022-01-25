@@ -33,6 +33,12 @@ export class ShoppingCart {
   }
 
   totalWithDiscount(): number {
+    // QUEBRANDO O LSP
+    // const result = this.discount.calculate(this.total());
+
+    // if (typeof result === 'number') return result;
+    // return this.total();
+
     return this.discount.calculate(this.total());
   }
 

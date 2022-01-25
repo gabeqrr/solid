@@ -1,15 +1,16 @@
 import { OrderStatus } from './interfaces/orderStatus';
-import { Messaging } from '../services/messaging';
-import { Persistency } from '../services/persistency';
-import { ShoppingCart } from './shopping-cart';
+// dependencias não são concretas
+import { ShoppingCartProtocol } from './interfaces/shopping-cart-protocol';
+import { MessagingProtocol } from './interfaces/messaging-protocol';
+import { PersistencyProtocol } from './interfaces/persistency-protocol';
 
 export class Order {
   private _orderStatus: OrderStatus = 'open'; //
 
   constructor(
-    private readonly cart: ShoppingCart,
-    private readonly messaging: Messaging,
-    private readonly persistency: Persistency,
+    private readonly cart: ShoppingCartProtocol,
+    private readonly messaging: MessagingProtocol,
+    private readonly persistency: PersistencyProtocol,
   ) {}
 
   get orderStatus(): OrderStatus {
